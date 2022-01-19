@@ -1,0 +1,201 @@
+﻿@model IEnumerable<Examen_ASP.Net.Models.Product>
+
+@{ ViewBag.Title = "Index";
+                Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
+<div class="content">
+    <div class="row">
+        <div class="col">
+            <div class="block block-rounded">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">Products list</h3>
+
+                </div>
+                <div class="block-content">
+                    <table class="table table-vcenter">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Seller Name</th>
+                                <th class="text-center">Product</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+
+                <tr>
+                    <td class="fw-semibold fs-sm">
+                        @Html.DisplayFor(modelItem => item.Id)
+
+                    </td>
+                    <td class="fw-semibold fs-sm">
+                        @Html.DisplayFor(modelItem => item.User.Name)
+
+                    </td>
+                    <th class="text-center" scope="row">
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </th>
+
+                    <td class="fw-semibold fs-sm">
+                        @Html.DisplayFor(modelItem => item.Category.Name)
+
+                    </td>
+
+                    <!--Acount Type-->
+                    <td class="fw-semibold fs-sm">
+                        @Html.DisplayFor(modelItem => item.Price)
+
+
+                    </td>
+                    <td class="fw-semibold fs-sm">
+                        @Html.DisplayFor(modelItem => item.Quantity)
+
+                    </td>
+                    <td class="text-center">
+                        <div class="btn-group">
+                            <input type="hidden" value=" @Html.DisplayFor(modelItem => item.Id)" name="categoryId" class="categoryId">
+                            <button type="button" class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled push modelButton" data-bs-toggle="modal" data-bs-target="#modal-block-vcenter">
+                                <i class="fa fa-fw fa-times"></i>
+                            </button>
+                        </div>
+                    </td>
+
+                    @*<td class="text-center">
+                            <div class="btn-group">
+
+                                <a href="@Url.Action("Delete", "Products", new { id=item.Id })" class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled">
+                                    <i class="fa fa-fw fa-times"></i>
+                                </a>
+                            </div>
+                        </td>*@
+                </tr>}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Top Block Modal -->
+<div class="modal mt-5" id="modal-block-vcenter" tabindex="-1" role="dialog" aria-labelledby="modal-block-vcenter" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-top" role="document">
+        <div class="modal-content">
+            <div class="block block-rounded block-transparent mb-0">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">Delete Category</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content text-danger mb-3">
+                    do you really want to delete these product ??
+                </div>
+                <div class="d-flex justify-content-end block-content-full text-end bg-body">
+                    <button value="close" type="button" class="btn btn-sm btn-alt-secondary me-1" data-bs-dismiss="modal">Close</button>
+                    <form action="@Url.Action("Delete", "Products")" method="post" class="m-3">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" class="deletedCategory" value="">
+                        <button type="submit" value="delete" class="btn btn-sm btn-danger " data-bs-dismiss="modal">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END Top Block Modal -->
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/assets/js/oneui.app.min.js"></script>
+<script>$(document).ready(function () {
+        $('.modelButton').on('click', function () {
+            $tr = $(this).closest('tr');
+            var data = $tr.children("td").map(function () {
+                return $(this).text();
+            }).get();
+            var deletedEntity = document.querySelector(".deletedCategory");
+            deletedEntity.value = data[0];
+            console.log(deletedEntity.value);
+        });
+    });</script>
+@*<h2>Index</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Category.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Discount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Discount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+    }
+
+    </table>*@

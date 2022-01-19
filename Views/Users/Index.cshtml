@@ -1,0 +1,184 @@
+﻿@model IEnumerable<Examen_ASP.Net.Models.User>
+
+@{ ViewBag.Title = "Login";
+                 Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
+
+
+<div class="content">
+    <div class="row">
+        <div class="col">
+            <div class="block block-rounded">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">Users list</h3>
+
+                </div>
+                <div class="block-content">
+                    <table class="table table-vcenter">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 100px;">#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Acount Type</th>
+                                <th>Status</th>
+                                <th class="text-center" style="width: 150px;">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                if (item.Role == "admin" || item.Role == "Admin")
+                                {
+                                    continue;
+                                }
+
+                <tr>
+                    <td class="text-center" scope="row">
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td class="fw-semibold fs-sm">
+                        @Html.DisplayFor(modelItem => item.Name)
+
+                    </td>
+                    <td class="fw-semibold fs-sm">
+                        @Html.DisplayFor(modelItem => item.Email)
+
+                    </td>
+
+                    <!--Acount Type-->
+                    <td class="fw-semibold fs-sm">
+                        @Html.DisplayFor(modelItem => item.Role)
+
+                    </td>
+                    <!--Status-->
+                    <td class="fw-semibold fs-sm">
+                        @if (item.Favorite == null)
+                        {
+
+
+        <span class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill bg-info-light text-info">none</span> }
+                        else
+                        {
+                            if (item.Favorite == "Favorite" || item.Favorite == "favorite")
+                            {
+        <span class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill bg-success-light text-success">Favorite</span> }
+                            else
+                            {
+        <span class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill bg-danger-light text-danger">Black Listed</span>}
+                        }
+                    </td>
+                    <td class="text-center">
+                        <input type="hidden" value=" @Html.DisplayFor(modelItem => item.Id)" class="categoryId" id="categoryId">
+                        <div class="btn-group">
+                            
+                            <button type="button" class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled modelButton " data-bs-toggle="modal" data-bs-target="#modal-block-vcenter">
+                                <i class="fa fa-fw fa-times"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Top Block Modal -->
+<div class="modal mt-5" id="modal-block-vcenter" tabindex="-1" role="dialog" aria-labelledby="modal-block-vcenter" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-top" role="document">
+        <div class="modal-content">
+            <div class="block block-rounded block-transparent mb-0">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">Delete Category</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content text-danger mb-3">
+                    Deleting this category will automatically delete all products in it
+                </div>
+                <div class="d-flex justify-content-end block-content-full text-end bg-body">
+                    <button value="close" type="button" class="btn btn-sm btn-alt-secondary me-1 mx-2" data-bs-dismiss="modal">Close</button>
+                    <form action="@Url.Action("Delete", "Users")" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" class="deletedCategory" value="">
+                        <button type="submit" value="delete" class="btn btn-sm btn-danger" data-bs-dismiss="modal">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END Top Block Modal -->
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/assets/js/oneui.app.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.modelButton').on('click', function () {
+            $tr = $(this).closest('tr');
+            var data = $tr.children("td").map(function () {
+                return $(this).text();
+            }).get();
+            var deletedEntity = document.querySelector(".deletedCategory");
+            deletedEntity.value = data[0];
+            console.log(deletedEntity.value);
+        });
+    });
+</script>
+@*<h2>Index</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Role)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>*@

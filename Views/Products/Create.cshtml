@@ -1,0 +1,259 @@
+﻿@model Examen_ASP.Net.Models.Product
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main id="main-container">
+    <div class="content">
+        <!-- Info -->
+        <div class="block block-rounded">
+            <div class="block-header block-header-default">
+                <h3 class="block-title">Info</h3>
+            </div>
+            <div class="block-content">
+                <div class="row justify-content-center">
+                    <div class="col-md-10 col-lg-8">
+                        @if (ViewBag.Message != null)
+                        {
+                            <div class="alert alert-danger">@ViewBag.Message</div>
+                        }
+                        <form action="@Url.Action("Create", "Products")" method="POST" enctype="multipart/form-data">
+                            @Html.AntiForgeryToken()
+
+                            <div class="mb-4">
+                                <label class="form-label" for="title">Title</label>
+                                @*<input type="text" class="form-control" id="title" name="Title" value="Dark Souls III">*@
+                                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @id = "title" } })
+
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label" for="one-ecom-product-description-short">Description</label>
+                                <textarea class="form-control" id="one-ecom-product-description-short" name="Description" rows="4"></textarea>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label" for="adresse">Adresse</label>
+                                <textarea class="form-control" id="adresse" name="Address" rows="4"></textarea>
+                            </div>
+                            <div class="mb-4">
+                                <!-- Select2 (.js-select2 class is initialized in Helpers.jqSelect2()) -->
+                                <label class="form-label" for="category">Category</label>
+                                <!--<select class="js-select2 form-select" id="one-ecom-product-category" name="one-ecom-product-category" style="width: 100%;" data-placeholder="Choose one..">
+                                <option></option>-->
+                                <!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                <!--<option value="1">Cables</option>
+                                </select>-->
+                                @Html.DropDownList("Category_id", null, htmlAttributes: new { @class = "js-select2 form-select", @id = "category" })
+
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label" for="one-ecom-product-price">Price in USD ($)</label>
+                                    <input type="text" class="form-control" id="one-ecom-product-price" name="Price" value="59,00">
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label" for="price-reduction">Price after reduction in USD ($)</label>
+                                    <input type="text" class="form-control" id="price-reduction" name="Discount" value="59,00">
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label" for="one-ecom-product-stock">Stock</label>
+                                    <input type="text" class="form-control" id="one-ecom-product-stock" name="Quantity" value="29">
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Condition</label>
+                                <div class="space-x-2">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" id="one-ecom-product-condition-new" name="Status" value="true" checked>
+                                        <label class="form-check-label" for="one-ecom-product-condition-new">New</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" id="one-ecom-product-condition-old" name="Status" value="false">
+                                        <label class="form-check-label" for="one-ecom-product-condition-old">Old</label>
+
+                                    </div>
+
+                                    @*@Html.DropDownList("User_id", null, htmlAttributes: new { @class = "form-control" })*@
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label" for="one-ecom-product-stock">Images</label>
+                                    <input type="file" id="files" name="files" onchange="loadFile(event)" multiple>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <button type="submit" class="btn btn-alt-primary">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END Info -->
+        <!-- Media -->
+        <div class="block block-rounded">
+            <div class="block-header block-header-default">
+                <h3 class="block-title">Media</h3>
+            </div>
+            <div class="block-content block-content-full">
+                <div class="row justify-content-center">
+                    <div class="col-md-10 col-lg-8">
+                        <!-- Dropzone (functionality is auto initialized by the plugin itself in js/plugins/dropzone/dropzone.min.js) -->
+                        @*<form class="dropzone" action="#"></form>*@
+                        <div class="dropzone" id="dynamicImage">
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END Media -->
+    </div>
+
+</main>
+<script src="~/assets/js/oneui.app.min.js"></script>
+
+@*jQuery (required for Select2 + Bootstrap Maxlength plugin)*@
+<script src="~/assets/js/lib/jquery.min.js"></script>
+
+@*Page JS Plugins*@
+<script src="~/assets/js/plugins/select2/js/select2.full.min.js"></script>
+<script src="~/assets/js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+<script src="~/assets/js/plugins/ckeditor/ckeditor.js"></script>
+<script src="~/assets/js/plugins/dropzone/min/dropzone.min.js"></script>
+
+@*Page JS Helpers (Select2 + Bootstrap Maxlength + CKEditor plugins)*@
+<script>One.helpersOnLoad(['jq-select2', 'jq-maxlength', 'js-ckeditor']);</script>
+@*@{
+        ViewBag.Title = "Create";
+    }
+    <h2>Create</h2>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <h4>Product</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Discount, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Discount, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.Status)
+                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Category_id, "Category_id", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Category_id", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Category_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.User_id, "User_id", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("User_id", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.User_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }*@
+<script>
+    function previewImages() {
+
+        var preview = document.querySelector('#dynamicImage');
+
+        if (this.files) {
+            [].forEach.call(this.files, readAndPreview);
+        }
+
+        function readAndPreview(file) {
+
+            // Make sure `file.name` matches our extensions criteria
+            if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
+                return alert(file.name + " is not an image");
+            } // else...
+
+            var reader = new FileReader();
+
+            reader.addEventListener("load", function () {
+                var image = new Image();
+                image.height = 100;
+                image.width = 100;
+                image.title = file.name;
+                image.src = this.result;
+                preview.appendChild(image);
+            });
+
+            reader.readAsDataURL(file);
+
+        }
+
+    }
+
+    document.querySelector('#files').addEventListener("change", previewImages);
+</script>

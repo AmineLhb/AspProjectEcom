@@ -1,0 +1,77 @@
+﻿
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>MyEcomStore</title>
+    <!-- Icons -->
+    <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+    <link rel="shortcut icon" href="~/assets/media/favicons/favicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="~/assets/media/favicons/favicon-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/assets/media/favicons/apple-touch-icon-180x180.png">
+    <!-- END Icons -->
+    <!-- Stylesheets -->
+    <!-- Fonts and OneUI framework -->
+    <link rel="stylesheet" href="~/assets/js/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/assets/js/plugins/dropzone/min/dropzone.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link href="~/assets/css/oneui.min.css" rel="stylesheet" />
+    <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
+    <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/amethyst.min.css"> -->
+    <!-- END Stylesheets -->
+</head>
+<body class="m-0 p-0">
+    <div id="page-container" class="sidebar-o sidebar-dark enable-page-overlay side-scroll page-header-fixed main-content-narrow">
+        <nav id="sidebar" aria-label="Main Navigation">
+            <div class="content-header">
+                <a class="fw-semibold text-dual" href="index.html">
+  
+                        <i class="fa fa-shopping-cart"></i>
+                    <span class="smini-hide fs-5 tracking-wider">My<span class="fw-normal">EcomStore</span></span>
+                </a>
+            </div>
+            <div class="content-side">
+                <ul class="nav-main">
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="@Url.Action("Index", "Users")">
+                            <i class="far fa-user pe-3"></i>
+                            <span class="nav-main-link-name">Users</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="@Url.Action("Index","Products")">
+                            <i class="nav-main-link-icon si si-handbag pe-2"></i>
+                            <span class="nav-main-link-name">Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="@Url.Action("Index", "Categories")">
+                            <i class="far fa-list-alt pe-2"></i>
+                            <span class="nav-main-link-name">Categories</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="@Url.Action("Index","Complaints")">
+                            <i class="fas fa-question-circle pe-2"></i>
+                            <span class="nav-main-link-name">Support</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="@Url.Action("Logout", "Users")">
+                            <i class="si-logout si pe-2"></i>
+                            <span class="nav-main-link-name">LogOut</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+
+
+
+        </nav>
+    @RenderBody()
+    </div>
+</body>
+</html>

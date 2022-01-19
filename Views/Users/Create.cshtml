@@ -1,0 +1,171 @@
+﻿@model Examen_ASP.Net.Models.User
+
+
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+<div id="page-container">
+    <!-- Main Container -->
+    <main id="main-container">
+        <!-- Page Content -->
+        <div class="bg-image" style="background-image: url('../../assets/media/photos/photo28.jpg'); ">
+            <div class="row g-0 bg-primary-dark-op">
+                <!-- Meta Info Section -->
+                <div class="hero-static col-lg-4 d-none d-lg-flex flex-column justify-content-center">
+                    <div class="p-4 p-xl-5 flex-grow-1 d-flex align-items-center">
+                        <div class="w-100">
+                            <a class="link-fx fw-semibold fs-2 text-white" href="@Url.Action("Index", "Home")">
+                                My<span class="fw-normal">EcomStore</span>
+                            </a>
+                            <p class="text-white-75 me-xl-8 mt-2">
+                                Create a new account to sell your products.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- END Meta Info Section -->
+                <!-- Main Section -->
+                <div class="hero-static col-lg-8 d-flex flex-column align-items-center bg-body-light">
+                    <div class="p-4 w-100 flex-grow-1 d-flex align-items-center">
+                        <div class="w-100">
+                            <!-- Header -->
+                            <div class="text-center mb-5">
+                                <h1 class="fw-bold mb-2">
+                                    Create Account
+                                </h1>
+                                <p class="fw-medium text-muted">
+                                    Get your access today in one easy step
+                                </p>
+                            </div>
+                            <!-- END Header -->
+                            <!-- Sign Up Form -->
+                            <div class="row g-0 justify-content-center">
+                                <div class="col-sm-8 col-xl-4">
+                                    <form class="js-validation-signup" action="" method="POST">
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="mb-4">
+                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control form-control-lg form-control-alt py-3", @id = "signup-username", @placeholder = "Username" } })
+
+                                            @*<input type="text" class="form-control form-control-lg form-control-alt py-3" id="signup-username" name="signup-username" placeholder="Username">*@
+                                        </div>
+                                        <div class="mb-4">
+                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control form-control-lg form-control-alt py-3", @id = "signup-email", @placeholder = "Email" } })
+                                            @*<input type="email" class="form-control form-control-lg form-control-alt py-3" id="signup-email" name="signup-email" placeholder="Email">*@
+                                        </div>
+                                        <div class="mb-4">
+                                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control form-control-lg form-control-alt py-3", @id = "Phone", @placeholder = "Phone" } })
+                                        </div>
+                                        <div class="mb-4">
+                                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control form-control-lg form-control-alt py-3", @id = "signup-password", @placeholder = "Password", @type = "password" } })
+                                        </div>
+                                        <div class="mb-4">
+                                            <input type="password" class="form-control form-control-lg form-control-alt py-3" id="signup-password-confirm" name="signup-password-confirm" placeholder="Confirm Password">
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label">Condition</label>
+                                            <div class="space-x-2">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" id="role" name="Role" value="Company" >
+                                                    <label class="form-check-label" for="role">Company</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" id="role" name="Role" value="Particular" checked>
+                                                    <label class="form-check-label" for="role">Particular</label>
+
+                                                </div>
+                                                @*@Html.DropDownList("User_id", null, htmlAttributes: new { @class = "form-control" })*@
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-lg btn-alt-success">
+                                                <i class="fa fa-fw fa-plus me-1 opacity-50"></i> Sign Up
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- END Sign Up Form -->
+                        </div>
+                    </div>
+                </div>
+                <!-- END Main Section -->
+            </div>
+        </div>
+        <!-- END Page Content -->
+    </main>
+    <!-- END Main Container -->
+</div>
+<!-- END Page Container -->
+@*@{
+        ViewBag.Title = "Create";
+    }
+
+    <h2>Create</h2>
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>User</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }*@

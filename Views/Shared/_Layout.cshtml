@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+    <title>MyEcomStore</title>
+
+    @*<meta name="description" content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
+        <meta name="author" content="pixelcave">
+        <meta name="robots" content="noindex, nofollow">*@
+
+    <!-- Open Graph Meta -->
+    @*<meta property="og:title" content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework">
+        <meta property="og:site_name" content="OneUI">
+        <meta property="og:description" content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="">
+        <meta property="og:image" content="">*@
+
+    <!-- Icons -->
+    <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+    <link rel="shortcut icon" href="~/assets/media/favicons/favicon.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="~/assets/media/favicons/favicon-192x192.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="~/assets/media/favicons/apple-touch-icon-180x180.png">
+    <!-- END Icons -->
+    <!-- Stylesheets -->
+    <!-- Fonts and OneUI framework -->
+    <link rel="stylesheet" href="~/assets/js/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/assets/js/plugins/dropzone/min/dropzone.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link href="~/assets/css/oneui.min.css" rel="stylesheet" />
+    <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
+    <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/amethyst.min.css"> -->
+    <!-- END Stylesheets -->
+</head>
+<body class="m-0 p-0">
+    <!-- Navigation -->
+    <div id="horizontal-navigation-hover-centered" class="bg-sidebar-dark p-2 push d-flex  w-100 ">
+        <ul class="nav-main nav-main-horizontal nav-main-hover nav-main-dark mx-4">
+            <li class="nav-main-item">
+                <a class="nav-main-link active" href="@Url.Action("Index", "Home")">
+                    <i class="nav-main-link-icon fa fa-home"></i>
+                    <span class="nav-main-link-name">Home</span>
+                </a>
+            </li>
+            <li class="nav-main-item">
+                <a class="nav-main-link active" href="@Url.Action("Create","Products")">
+                    <i class="nav-main-link-icon fa fa-camera"></i>
+                    <span class="nav-main-link-name">add product</span>
+                </a>
+            </li>
+            <li class="nav-main-item ">
+                <a class="nav-main-link active" href="">
+                    <span class="nav-main-link-name">FAQs</span>
+                    <i class="nav-main-link-icon fa fa-question"></i>
+                </a>
+            </li>
+        </ul>
+        <ul class="flex-row-reverse flex-fill align-self-end d-flex nav-main-dark mx-4 m-0">
+            <li class="nav-main-item flex-row-reverse">
+
+                @if (Session["user"] == null)
+                {
+                    <a class="nav-main-link active" href="@Url.Action("Login", "Users")">
+                        <i class="nav-main-link-icon fa fa-sign-in-alt"></i>
+                        <span class="nav-main-link-name">Login</span>
+                    </a>
+                }
+                else
+                {
+                    <a class="nav-main-link active" href="@Url.Action("Logout", "Users")">
+                        <i class="nav-main-link-icon fa fa-sign-out-alt"></i>
+                        <span class="nav-main-link-name">Logout</span>
+                    </a>
+                    <a class="nav-main-link active" href="@Url.Action("Profile", "Users")">
+                        <i class="nav-main-link-icon fa fa-user"></i>
+                        <span class="nav-main-link-name">Profile</span>
+                    </a>
+
+                }
+            </li>
+        </ul>
+    </div>
+    <!-- END Navigation -->
+
+
+
+    @RenderBody()
+
+
+<footer class="d-flex justify-content-end position-fixed bottom-0 end-0">
+    <a href="@Url.Action("Index","complaints")" class="btn btn-sm btn-warning me-4 mb-4">
+        <i class="fa fa-fw fa-exclamation-circle"></i>
+    </a>
+    @*<button>
+        <i class="nav-main-link-icon fa fa-question"></i>
+    </button>*@
+
+</footer>
+    @*@Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)*@
+</body>
+</html>
