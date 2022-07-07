@@ -18,7 +18,20 @@ namespace Examen_ASP.Net.Controllers
         // GET: Categories
         public ActionResult Index()
         {
-            return View(db.Categories.ToList());
+            if (Session["user"] != null)
+            {
+                User user = (User)Session["user"];
+                if (user.Role == "admin")
+                {
+                    return View(db.Categories.ToList());
+
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Categories/Details/5

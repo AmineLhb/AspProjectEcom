@@ -22,6 +22,7 @@ namespace Examen_ASP.Net.Models
         public string UserName { get; set; }
         public string Path { get; set; }
         public string Text { get; set; }
+        public string Answer { get; set; }
         public int Buyer_id { get; set; }
         public int Id { get; set; }
     }

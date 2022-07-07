@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Examen_ASP.Net.Helper
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -7,32 +8,17 @@
 
     <title>MyEcomStore</title>
 
-    @*<meta name="description" content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
-        <meta name="author" content="pixelcave">
-        <meta name="robots" content="noindex, nofollow">*@
-
-    <!-- Open Graph Meta -->
-    @*<meta property="og:title" content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework">
-        <meta property="og:site_name" content="OneUI">
-        <meta property="og:description" content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
-        <meta property="og:type" content="website">
-        <meta property="og:url" content="">
-        <meta property="og:image" content="">*@
 
     <!-- Icons -->
-    <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
     <link rel="shortcut icon" href="~/assets/media/favicons/favicon.png">
-        <link rel="icon" type="image/png" sizes="192x192" href="~/assets/media/favicons/favicon-192x192.png">
-        <link rel="apple-touch-icon" sizes="180x180" href="~/assets/media/favicons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="~/assets/media/favicons/favicon-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/assets/media/favicons/apple-touch-icon-180x180.png">
     <!-- END Icons -->
     <!-- Stylesheets -->
-    <!-- Fonts and OneUI framework -->
     <link rel="stylesheet" href="~/assets/js/plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="~/assets/js/plugins/dropzone/min/dropzone.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
     <link href="~/assets/css/oneui.min.css" rel="stylesheet" />
-    <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
-    <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/amethyst.min.css"> -->
     <!-- END Stylesheets -->
 </head>
 <body class="m-0 p-0">
@@ -42,37 +28,40 @@
             <li class="nav-main-item">
                 <a class="nav-main-link active" href="@Url.Action("Index", "Home")">
                     <i class="nav-main-link-icon fa fa-home"></i>
-                    <span class="nav-main-link-name">Home</span>
+                    <span class="nav-main-link-name" name="home" id="home">Home</span>
                 </a>
             </li>
             <li class="nav-main-item">
                 <a class="nav-main-link active" href="@Url.Action("Create","Products")">
                     <i class="nav-main-link-icon fa fa-camera"></i>
-                    <span class="nav-main-link-name">add product</span>
+                    <span class="nav-main-link-name" name="product" id="product">
+                        add product
+                    </span>
                 </a>
             </li>
             <li class="nav-main-item ">
-                <a class="nav-main-link active" href="">
-                    <span class="nav-main-link-name">FAQs</span>
+                <a class="nav-main-link active" href="@Url.Action("Index","complaints")">
+                    <span class="nav-main-link-name" name="faqs">FAQs</span>
                     <i class="nav-main-link-icon fa fa-question"></i>
                 </a>
             </li>
         </ul>
         <ul class="flex-row-reverse flex-fill align-self-end d-flex nav-main-dark mx-4 m-0">
+
             <li class="nav-main-item flex-row-reverse">
 
                 @if (Session["user"] == null)
                 {
                     <a class="nav-main-link active" href="@Url.Action("Login", "Users")">
                         <i class="nav-main-link-icon fa fa-sign-in-alt"></i>
-                        <span class="nav-main-link-name">Login</span>
+                        <span class="nav-main-link-name" id="login">Login</span>
                     </a>
                 }
                 else
                 {
                     <a class="nav-main-link active" href="@Url.Action("Logout", "Users")">
                         <i class="nav-main-link-icon fa fa-sign-out-alt"></i>
-                        <span class="nav-main-link-name">Logout</span>
+                        <span class="nav-main-link-name" id="logout">Logout</span>
                     </a>
                     <a class="nav-main-link active" href="@Url.Action("Profile", "Users")">
                         <i class="nav-main-link-icon fa fa-user"></i>
@@ -80,6 +69,13 @@
                     </a>
 
                 }
+            </li>
+            <li>
+                <select class="form-select" aria-label="Default select example" id="lang">
+                    <option value="1">En</option>
+                    <option value="2">Fr</option>
+                   
+                </select>
             </li>
         </ul>
     </div>
@@ -90,17 +86,46 @@
     @RenderBody()
 
 
-<footer class="d-flex justify-content-end position-fixed bottom-0 end-0">
-    <a href="@Url.Action("Index","complaints")" class="btn btn-sm btn-warning me-4 mb-4">
-        <i class="fa fa-fw fa-exclamation-circle"></i>
-    </a>
-    @*<button>
-        <i class="nav-main-link-icon fa fa-question"></i>
-    </button>*@
+    <footer class="d-flex justify-content-end position-fixed bottom-0 end-0">
+        <a href="@Url.Action("Index","complaints")" class="btn btn-sm btn-warning me-4 mb-4">
+            <i class="fa fa-fw fa-exclamation-circle"></i>
+        </a>
 
-</footer>
-    @*@Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)*@
+    </footer>
+    <script>
+        var select = document.querySelector("#lang");
+
+        select.onchange = function () {
+            if (select.value == 2) {
+                document.getElementById("product").innerHTML ="Ajouter Produit";
+                document.getElementById("home").innerHTML = "principale";
+                document.getElementById("login").innerHTML = "se connecter";
+                document.getElementById("title1").innerHTML = "Bienvenue dans notre boutique de commerce électronique !";
+                document.getElementById("title2").innerHTML = "N'hésitez pas à explorer nos listes de produits.";
+                document.getElementById("search").placeholder = "Chercher...";
+                document.getElementById("best").innerHTML = "Meilleur offre";
+                document.getElementById("logout").innerHTML = "Deconnecter";
+
+
+
+            } else {
+                document.getElementById("product").innerHTML ="Add Product";
+                document.getElementById("home").innerHTML = "Home";
+                document.getElementById("login").innerHTML = "Login";
+                document.getElementById("title1").innerHTML = "Welcome to our Ecommerce Store!";
+                document.getElementById("title2").innerHTML = "Feel free to explore our products lists.";
+                document.getElementById("search").placeholder = "Search...";
+                document.getElementById("best").innerHTML = "BEST OFFER";
+                document.getElementById("logout").innerHTML = "Logout";
+
+
+
+            }
+            console.log(select.value);
+        }
+
+
+    </script>
+
 </body>
 </html>

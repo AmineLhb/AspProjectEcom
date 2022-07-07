@@ -37,18 +37,22 @@
                         <div class="fw-semibold text-dark mb-1">Status</div>
                         @if (Model.User.Favorite == null)
                         {
-
-
-            <span class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill bg-info-light text-info">clean</span> }
-        else
-        {
-            if (Model.User.Favorite == "Favorite" || Model.User.Favorite == "favorite")
-            {
-        <span class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill bg-success-light text-success">Favorite</span> }
-    else
-    {
-        <span class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill bg-danger-light text-danger">Black Listed</span>}
-}
+                                <span class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill bg-info-light text-info">clean</span> }
+                            else
+                            {
+                                if (Model.User.Favorite == "Favorite" || Model.User.Favorite == "favorite")
+                                {
+                                    <span class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill bg-success-light text-success">Favorite</span> 
+                                }
+                                else if(Model.User.Favorite == "Black Listed" || Model.User.Favorite == "Black Listed")
+                                {
+                                    <span class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill bg-danger-light text-danger">Black Listed</span>
+                                }
+                                else
+                                {
+                                    <span class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill bg-light text-secondary">None</span>
+                                }
+                        }
                     </div>
                     <div class="col-6 col-md-3">
                         <div class="fw-semibold text-dark mb-1">Products</div>
@@ -80,7 +84,7 @@
                                 <th class="d-none d-md-table-cell text-center">Title</th>
                                 <th class="d-none d-sm-table-cell text-center">Price</th>
                                 <th>Quantity</th>
-                                <th class="d-none d-sm-table-cell text-end">Discount</th>
+                                <th class="d-none d-sm-table-cell text-end">After discount</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
@@ -94,17 +98,15 @@
                     <td class="d-none d-md-table-cell text-center fs-sm">
                         <a href="javascript:void(0)">@Html.DisplayFor(modelItem => item.Title)</a>
                     </td>
-                    <td class="d-none d-sm-table-cell text-center fs-sm">@Html.DisplayFor(modelItem => item.Price)</td>
+                    <td class="d-none d-sm-table-cell text-center fs-sm">$@Html.DisplayFor(modelItem => item.Price)</td>
                     <td>
                         <span class="badge bg-success">@Html.DisplayFor(modelItem => item.Quantity)</span>
                     </td>
                     <td class="text-end d-none d-sm-table-cell fs-sm">
-                        <span">@Html.DisplayFor(modelItem => item.Discount)</span">
+                        <span">$@Html.DisplayFor(modelItem => item.Discount)</span">
                     </td>
                     <td class="text-center fs-sm">
-                        <a class="btn btn-sm btn-alt-secondary" href="@Url.Action("Edit", "Deatils",new { id=item.Id })" data-bs-toggle="tooltip" title="View">
-                            <i class="fa fa-fw fa-eye"></i>
-                        </a>
+                        
                         <input type="hidden" value=" @Html.DisplayFor(modelItem => item.Id)" name="categoryId" id="categoryId">
                         <div class="btn-group">
                             <a href="" type="button" class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled modelButton " data-bs-toggle="modal" data-bs-target="#modal-block-vcenter">
@@ -137,42 +139,89 @@
                                         @foreach (var item in Model.ProfileInfos)
                                         {
 
-
-                            <tr>
-                                <td class="d-none d-sm-table-cell text-center" style="width: 140px;">
-                                    <p>
-                                        <a href="be_pages_generic_profile.html">
-                                            <img class="img-avatar" src="~/uploads/@Html.DisplayFor(modelItem => item.Path)" alt="@Html.DisplayFor(modelItem => item.Path)">
-                                        </a>
-                                    </p>
-                                    <p class="fs-sm fw-medium"><br>@Html.DisplayFor(modelItem => item.UserName)</p>
-                                </td>
-                                <td>
-                                    <p>@Html.DisplayFor(modelItem => item.Text)</p>
-                                    <hr>
-                                </td>
-                                <br />
-                                <td>
-                                    <form action="@Url.Action("updateMessage", "Users")" method="POST">
-                                        @Html.AntiForgeryToken()
-                                        <div class="mb-4">
-                                            <div class="mb-4">
-                                                <input type="hidden" name="Id" value=" @Html.DisplayFor(modelItem => item.Id)">
-                                                <label class="form-label" for="one-ecom-product-description-short">Answer</label>
-                                                <textarea class="form-control" id="one-ecom-product-description-short" name="Answer" rows="2"></textarea>
-                                            </div>
-
-                                        </div>
-                                        <div class="mb-4">
-                                            <button type="submit" class="btn btn-alt-primary">
-                                                <i class="fa fa-reply me-1 opacity-50 "></i> Reply
-                                            </button>
-                                        </div>
-                                    </form>
-                                </td>
+                                            if (item.Answer == null)
+                                            {
+                                    <tr>
+                                        <td class="d-none d-sm-table-cell text-center" style="width: 140px;">
+                                            <p>
+                                                <a href="be_pages_generic_profile.html">
+                                                    <img class="img-avatar" src="~/uploads/@Html.DisplayFor(modelItem => item.Path)" alt="@Html.DisplayFor(modelItem => item.Path)">
+                                                </a>
+                                            </p>
+                                            <p class="fs-sm fw-medium"><br>@Html.DisplayFor(modelItem => item.UserName)</p>
+                                        </td>
+                                        <td>
+                                            <p>@Html.DisplayFor(modelItem => item.Text)</p>
+                                            <hr>
+                                        </td>
+                                        <br />
+                                        <td>
 
 
-                            </tr>}
+
+                                            <form action="@Url.Action("updateMessage", "Users")" method="POST">
+                                                @Html.AntiForgeryToken()
+                                                <div class="mb-4">
+                                                    <div class="mb-4">
+                                                        <input type="hidden" name="Id" value=" @Html.DisplayFor(modelItem => item.Id)">
+                                                        <label class="form-label" for="one-ecom-product-description-short">Answer</label>
+                                                        <textarea class="form-control" id="one-ecom-product-description-short" name="Answer" rows="2"></textarea>
+                                                    </div>
+
+                                                </div>
+                                                <div class="mb-4">
+                                                    <button type="submit" class="btn btn-alt-primary">
+                                                        <i class="fa fa-reply me-1 opacity-50 "></i> Reply
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </td>
+
+
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td class="d-none d-sm-table-cell text-center" style="width: 140px;">
+                                            <p>
+                                                <a href="be_pages_generic_profile.html">
+                                                    <img class="img-avatar" src="~/uploads/@Html.DisplayFor(modelItem => item.Path)" alt="@Html.DisplayFor(modelItem => item.Path)">
+                                                </a>
+                                            </p>
+                                            <p class="fs-sm fw-medium"><br>@Html.DisplayFor(modelItem => item.UserName)</p>
+                                        </td>
+                                        <td>
+                                            <p>@Html.DisplayFor(modelItem => item.Answer)</p>
+                                            <hr>
+                                        </td>
+                                        <br />
+                                        <td>
+
+
+
+                                            <form action="@Url.Action("newMessage", "Users")" method="POST">
+                                                @Html.AntiForgeryToken()
+                                                <div class="mb-4">
+                                                    <div class="mb-4">
+                                                        <input type="hidden" name="Id" value=" @Html.DisplayFor(modelItem => item.Id)">
+                                                        <label class="form-label" for="one-ecom-product-description-short">Answer</label>
+                                                        <textarea class="form-control" id="one-ecom-product-description-short" name="Text" rows="2"></textarea>
+                                                    </div>
+
+                                                </div>
+                                                <div class="mb-4">
+                                                    <button type="submit" class="btn btn-alt-primary">
+                                                        <i class="fa fa-reply me-1 opacity-50 "></i> Reply
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </td>
+
+
+                                    </tr>
+                                }
+                            }
                                     </tbody>
                                 </table>
                             </div>
@@ -195,7 +244,7 @@
         <div class="modal-content">
             <div class="block block-rounded block-transparent mb-0">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title">Delete Category</h3>
+                    <h3 class="block-title">Delete PRODUCT</h3>
                     <div class="block-options">
                         <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
                             <i class="fa fa-fw fa-times"></i>
@@ -203,7 +252,7 @@
                     </div>
                 </div>
                 <div class="block-content text-danger mb-3">
-                    Deleting this category will automatically delete all products in it
+                    Are you sure you want to delete this product
                 </div>
                 <div class="d-flex justify-content-end block-content-full text-end bg-body">
                     <button value="close" type="button" class="btn btn-sm btn-alt-secondary me-1 mx-2" data-bs-dismiss="modal">Close</button>

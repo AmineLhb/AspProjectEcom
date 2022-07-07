@@ -7,21 +7,55 @@
     <title>MyEcomStore</title>
 
     <!-- Icons -->
-    <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
     <link rel="shortcut icon" href="~/assets/media/favicons/favicon.png">
     <link rel="icon" type="image/png" sizes="192x192" href="~/assets/media/favicons/favicon-192x192.png">
     <link rel="apple-touch-icon" sizes="180x180" href="~/assets/media/favicons/apple-touch-icon-180x180.png">
     <!-- END Icons -->
     <!-- Stylesheets -->
-    <!-- Fonts and OneUI framework -->
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
-    @*<link rel="stylesheet" id="css-main" href="assets/css/oneui.min.css">*@
     <link href="~/assets/css/oneui.min.css" rel="stylesheet" />
-    <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
-    <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/amethyst.min.css"> -->
+
     <!-- END Stylesheets -->
 </head>
 <body>
+    <footer class="d-flex justify-content-end position-fixed bottom-0 end-0 m-3 bg-dark">
+        <select class="btn btn-lg btn-alt-primary rounded-2" aria-label="Default select example" id="lang">
+            <option value="1">En</option>
+            <option value="2">Fr</option>
+        </select>
+    </footer>
+    <script>
+        var select = document.querySelector("#lang");
+
+        select.onchange = function () {
+            if (select.value == 2) {
+                document.getElementById("signin").innerHTML = "Authentifier";
+                document.getElementById("title").innerHTML = "Bienvenue dans votre incroyable application. N'hésitez pas à vous connecter et à commencer à vendre vos produits.";
+                document.getElementById("title1").innerHTML = "Authentifier";
+                document.getElementById("title2").innerHTML = "Bienvenue, veuillez vous connecter ou <a href='/Users/Create'>créer</a> un nouveau compte.";
+
+                document.getElementById("login-password").placeholder = "mot de passe";
+
+
+
+            } else {
+                document.getElementById("title").innerHTML = "Welcome to your amazing app. Feel free to login and start selling your products.";
+                document.getElementById("title1").innerHTML = "Sign In";
+                document.getElementById("title2").innerHTML = 'Welcome, please login or <a href="/Users/Create">sign up</a> for a new account.';
+
+                document.getElementById("signin").innerHTML = "Sign In";
+                document.getElementById("login-password").placeholder = "password";
+
+
+
+
+            }
+            console.log(select.value);
+        }
+
+
+    </script>
     @RenderBody()
     <script src="~/assets/js/oneui.app.min.js"></script>
     <!-- jQuery (required for jQuery Validation plugin) -->

@@ -107,7 +107,6 @@ namespace Examen_ASP.Net.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            //ViewBag.User_id = new SelectList(db.Users, "Id", "Name", complaint.User_id);
             return View("Index");
         }
 

@@ -16,11 +16,12 @@
                     <table class="table table-vcenter">
                         <thead>
                             <tr>
-                                <th class="text-center" style="width: 100px;">#</th>
+                                <th>#</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Acount Type</th>
                                 <th>Status</th>
+                                <th>Change Status</th>
                                 <th class="text-center" style="width: 150px;">Delete</th>
                             </tr>
                         </thead>
@@ -32,51 +33,99 @@
                                     continue;
                                 }
 
-                <tr>
-                    <td class="text-center" scope="row">
-                        @Html.DisplayFor(modelItem => item.Id)
-                    </td>
-                    <td class="fw-semibold fs-sm">
-                        @Html.DisplayFor(modelItem => item.Name)
+                                <tr>
+                                    <td class="text-center" scope="row">
+                                        @Html.DisplayFor(modelItem => item.Id)
+                                    </td>
+                                    <td class="fw-semibold fs-sm">
+                                        @Html.DisplayFor(modelItem => item.Name)
 
-                    </td>
-                    <td class="fw-semibold fs-sm">
-                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    <td class="fw-semibold fs-sm">
+                                        @Html.DisplayFor(modelItem => item.Email)
 
-                    </td>
+                                    </td>
 
-                    <!--Acount Type-->
-                    <td class="fw-semibold fs-sm">
-                        @Html.DisplayFor(modelItem => item.Role)
+                                    <!--Acount Type-->
+                                    <td class="fw-semibold fs-sm">
+                                        @Html.DisplayFor(modelItem => item.Role)
 
-                    </td>
-                    <!--Status-->
-                    <td class="fw-semibold fs-sm">
-                        @if (item.Favorite == null)
-                        {
+                                    </td>
+                                    <!--Status-->
+                                    <td class="fw-semibold fs-sm">
+                                        @if (item.Favorite == null || item.Favorite == "none")
+                                        {
+                                    <span class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill bg-info-light text-info">none</span> }
+                                else
+                                {
+                                    if (item.Favorite == "Favorite" || item.Favorite == "favorite")
+                                    {
+                                    <span class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill bg-success-light text-success">Favorite</span> }
+                                else if (item.Favorite == "Black list")
+                                {
 
 
-        <span class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill bg-info-light text-info">none</span> }
-                        else
-                        {
-                            if (item.Favorite == "Favorite" || item.Favorite == "favorite")
-                            {
-        <span class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill bg-success-light text-success">Favorite</span> }
-                            else
-                            {
-        <span class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill bg-danger-light text-danger">Black Listed</span>}
-                        }
-                    </td>
-                    <td class="text-center">
-                        <input type="hidden" value=" @Html.DisplayFor(modelItem => item.Id)" class="categoryId" id="categoryId">
-                        <div class="btn-group">
-                            
-                            <button type="button" class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled modelButton " data-bs-toggle="modal" data-bs-target="#modal-block-vcenter">
-                                <i class="fa fa-fw fa-times"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>}
+                                    <span class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill bg-danger-light text-danger">Black Listed</span>
+                                }
+                                else
+                                {
+                                    <span class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill bg-info-light text-info">none</span>
+                                }
+                            }
+                                    </td>
+                                    <!-- change status-->
+                                    <td class="text-center">
+                                        <div class="d-flex">
+
+                                            <form action="@Url.Action("Edit", "Users")" class="me-1" method="post">
+                                                @Html.AntiForgeryToken()
+
+                                                <input type="hidden" value="Black list" class="favorite" name="favorite" id="favorite">
+                                                <input type="hidden" name="id" value="@item.Id">
+
+                                                <div class="btn-group">
+                                                    <button type="submit" class="btn btn-sm btn-alt-secondary">
+                                                        <i class="fa fa-fw fa-ban"></i>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                            <form action="@Url.Action("Edit", "Users")"  class="me-1" method="post">
+                                                @Html.AntiForgeryToken()
+
+                                                <input type="hidden" value="favorite" class="favorite" name="favorite" id="favorite">
+                                                <input type="hidden" name="id" value="@item.Id">
+
+                                                <div class="btn-group">
+                                                    <button type="submit" class="btn btn-sm btn-alt-secondary">
+                                                        <i class="fa fa-fw fa-heart"></i>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                            <form action="@Url.Action("Edit", "Users")"  class="me-1" method="post">
+                                                @Html.AntiForgeryToken()
+
+                                                <input type="hidden" value="none" class="favorite" name="favorite" id="favorite">
+                                                <input type="hidden" name="id" value="@item.Id">
+
+                                                <div class="btn-group">
+                                                    <button type="submit" class="btn btn-sm btn-alt-secondary">
+                                                        <i class="fa fa-fw fa-times"></i>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </td>
+
+                                    <td class="text-center">
+                                        <input type="hidden" value=" @Html.DisplayFor(modelItem => item.Id)" class="categoryId" id="categoryId">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled modelButton " data-bs-toggle="modal" data-bs-target="#modal-block-vcenter">
+                                                <i class="fa fa-fw fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>}
                         </tbody>
                     </table>
                 </div>
@@ -91,7 +140,7 @@
         <div class="modal-content">
             <div class="block block-rounded block-transparent mb-0">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title">Delete Category</h3>
+                    <h3 class="block-title">Delete User</h3>
                     <div class="block-options">
                         <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
                             <i class="fa fa-fw fa-times"></i>
@@ -99,11 +148,11 @@
                     </div>
                 </div>
                 <div class="block-content text-danger mb-3">
-                    Deleting this category will automatically delete all products in it
+                    Deleting this product will automatically delete all products posted by this one
                 </div>
                 <div class="d-flex justify-content-end block-content-full text-end bg-body">
                     <button value="close" type="button" class="btn btn-sm btn-alt-secondary me-1 mx-2" data-bs-dismiss="modal">Close</button>
-                    <form action="@Url.Action("Delete", "Users")" method="post">
+                    <form action="@Url.Action("Delete", "Users")" method="post" class="m-3">
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="id" class="deletedCategory" value="">
                         <button type="submit" value="delete" class="btn btn-sm btn-danger" data-bs-dismiss="modal">Delete</button>
@@ -130,55 +179,3 @@
         });
     });
 </script>
-@*<h2>Index</h2>
-
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Role)
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Password)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Role)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
-            </tr>
-        }
-
-    </table>*@

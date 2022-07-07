@@ -2,7 +2,9 @@
 using Examen_ASP.Net.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 
@@ -16,6 +18,7 @@ namespace Examen_ASP.Net.Controllers
 
         public ActionResult Index(string search)
         {
+
             ViewModel model = new ViewModel();
             List<BestOffer> BestOff = new List<BestOffer>();
 
@@ -30,6 +33,7 @@ namespace Examen_ASP.Net.Controllers
                 BestOff.Add(bestOffer);
             }
             model.BestOffers = BestOff;
+
             if (!String.IsNullOrEmpty(search))
             {
                 model.Products = db.Products.Where(s => s.Title.Contains(search));
@@ -39,8 +43,7 @@ namespace Examen_ASP.Net.Controllers
                 model.Products = db.Products.ToList();
             }
             List<HomeInfo> homes = new List<HomeInfo>();
-            var products = db.Products.ToList();
-            foreach (var item in products)
+            foreach (var item in model.Products)
             {
                 List<Image> imgs = new List<Image>();
                 HomeInfo home = new HomeInfo();
@@ -96,16 +99,15 @@ namespace Examen_ASP.Net.Controllers
 
                 homes.Add(home);
             }
-            //model.Products = db.Products.Where(product => product.Category_id == id).ToList();
             model.Categories = db.Categories.ToList();
             model.HomeInfos = homes;
             Category category = db.Categories.Find(id);
             ViewBag.category = category.Name;
-            //model.Products = db.Products.ToList();
 
 
             return View(model);
         }
+
 
 
     }

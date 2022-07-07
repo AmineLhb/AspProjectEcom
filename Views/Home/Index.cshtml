@@ -1,157 +1,150 @@
 ﻿@model Examen_ASP.Net.Models.ViewModel
 
-                                    @{ ViewBag.Title = "Home Page"; }
+@{ ViewBag.Title = "Home Page"; }
 
-                                    <!-- Main Container -->
-                                    <main id="main-container">
-                                        <div class="bg-image" style="background-image: url('../../assets/media/photos/photo3.jpg');">
-                                            <div class="bg-primary-dark-op">
-                                                <div class="content content-full text-center py-6">
-                                                    <h1 class="h2 text-white mb-2">Welcome to our Ecomerce Store!</h1>
-                                                    <h2 class="h4 fw-normal text-white-75 mb-0">Feel free to explore our products lists.</h2>
+<!-- Main Container -->
+<main id="main-container">
+    <div class="bg-image" style="background-image: url('../../assets/media/photos/photo3.jpg');">
+        <div class="bg-primary-dark-op">
+            <div class="content content-full text-center py-6">
+                <h1 class="h2 text-white mb-2" id="title1">Welcome to our Ecommerce Store!</h1>
+                <h2 class="h4 fw-normal text-white-75 mb-0" id="title2">Feel free to explore our products lists.</h2>
+            </div>
+        </div>
+    </div>
+    <!-- Page Content -->
+    <div class="content">
+
+        <!--search bar-->
+        <div class="row push">
+            <form asp-controller="Home" asp-action="Index" method="get">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="search" id="search" placeholder="Search..">
+                    <button type="submit" class="input-group-text">
+                        <i class="fa fa-fw fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!--End search bar-->
+        <!-- Products list-->
+        <div class="row push">
+            <!-- Categories -->
+            <div class="col-xl-4 order-xl-1 ">
+                <div class="block block-rounded js-ecom-div-nav d-none d-xl-block">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title">
+                            <i class="fa fa-fw fa-boxes text-muted me-1"></i> Categories
+                        </h3>
+                    </div>
+                    <div class="block-content">
+                        <ul class="nav nav-pills flex-column push">
+                            @foreach (var item in Model.Categories)
+                            {
+
+                <li class="nav-item mb-1">
+                    <a class="nav-link d-flex justify-content-between align-items-center" href="@Url.Action("CategorieProducts","Home",new { id=item.Id })">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </a>
+                </li>
+}
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- END Categories -->
+            <div class="col-xl-8 order-xl-0">
+                <div class="row items-push">
+                    <!--one Product-->
+                    @foreach (var item in Model.HomeInfos)
+                    {
+                            <div class="col-md-4 col-xl-4">
+                                <div class="block block-rounded mb-0">
+                                    <div class="block-content p-1">
+                                        <div class="options-container">
+                                            <img class="w-100" style="height:300px;" src="~/uploads/@item.Images[0].Path" alt="@item.Images[0].Path">
+                                            <div class="options-overlay bg-black-75">
+                                                <div class="options-overlay-content">
+                                                    <a class="btn btn-sm btn-alt-secondary" href="@Url.Action("Details", "Products", new { id=item.Product.Id })">
+                                                        View
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- Page Content -->
-                                        <div class="content">
+                                    </div>
+                                    <div class="block-content">
+                                        <div class="mb-1">
+                                            <div class="fw-semibold float-end ms-1">
+                                                @if (@item.Product.Price > @item.Product.Discount)
+                                                {
+                                <del>$@item.Product.Price</del>
 
-                                            <!--search bar-->
-                                            <div class="row push">
-                                                <form asp-controller="Home" asp-action="Index" method="get">
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control" name="search" placeholder="Search..">
-                                                        <button type="submit" class="input-group-text">
-                                                            <i class="fa fa-fw fa-search"></i>
-                                                        </button>
-                                                    </div>
-                                                </form>
+                                                    <span class="badge rounded-pill bg-danger me-2 px-3"> $@item.Product.Discount</span> }
+                                                else
+                                                {
+                                <span>$@item.Product.Price</span>}
+
                                             </div>
-                                            <!--End search bar-->
-                                            <!-- Products list-->
-                                            <div class="row push">
-                                                <!-- Categories -->
-                                                <div class="col-xl-4 order-xl-1 ">
-                                                    <div class="block block-rounded js-ecom-div-nav d-none d-xl-block">
-                                                        <div class="block-header block-header-default">
-                                                            <h3 class="block-title">
-                                                                <i class="fa fa-fw fa-boxes text-muted me-1"></i> Categories
-                                                            </h3>
-                                                        </div>
-                                                        <div class="block-content">
-                                                            <ul class="nav nav-pills flex-column push">
-                                                                @foreach (var item in Model.Categories)
-                                                                {
+                                            <a class="h6" href="be_pages_ecom_store_product.html">@item.Product.Title</a>
+                                        </div>
+                                        <p class="fs-sm text-muted">@item.Product.Description</p>
+                                    </div>
+                                </div>
+                            </div> 
+                            <!--End of product-->}
+                </div>
+            </div>
+            @* End Of Products List*@
+        </div>
+        <div class="row push">
 
-                                                    <li class="nav-item mb-1">
-                                                        <a class="nav-link d-flex justify-content-between align-items-center" href="@Url.Action("CategorieProducts","Home",new { id=item.Id })">
-                                                            @Html.DisplayFor(modelItem => item.Name)
-
-                                                            @*<span class="badge rounded-pill bg-black-50 ms-1">
-                                                                    @Html.DisplayFor(modelItem => item.Products.Count)
-                                                                </span>*@
-
-                                                        </a>
-                                                    </li>}
-
-
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- END Categories -->
-                                                <div class="col-xl-8 order-xl-0">
-                                                    <div class="row items-push">
-                                                        <!--one Product-->
-                                                        @foreach (var item in Model.HomeInfos)
-                                                        {
-
-
-                                            <div class="col-md-4 col-xl-4">
-                                                <div class="block block-rounded mb-0">
-                                                    <div class="block-content p-1">
-                                                        <div class="options-container">
-                                                            <img class="w-100" style="height:300px;" src="~/uploads/@item.Images[0].Path" alt="@item.Images[0].Path">
-                                                            <div class="options-overlay bg-black-75">
-                                                                <div class="options-overlay-content">
-                                                                    <a class="btn btn-sm btn-alt-secondary" href="@Url.Action("Details", "Products", new { id=item.Product.Id })">
-                                                                        View
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="block-content">
-                                                        <div class="mb-1">
-                                                            <div class="fw-semibold float-end ms-1">
-                                                                @if (@item.Product.Price > @item.Product.Discount)
-                                                                {
+            <!-- Best Offer -->
+            <div class="col-xl-12 order-xl-0">
+                <h2 class="content-heading" id="best">Best Offer</h2>
+                <div class="row items-push">
+                    <!--one Product-->
+                    @foreach (var item in Model.BestOffers)
+                    {
+                        <div class="col-md-4 col-xl-4">
+                            <div class="block block-rounded h-100 mb-0">
+                                <div class="block-content p-1">
+                                    <div class="options-container">
+                                        <img class="w-100" style="height:500px;" src="~/uploads/@item.Images.Path" alt="@item.Images.Path">
+                                        <div class="options-overlay bg-black-75">
+                                            <div class="options-overlay-content">
+                                                <a class="btn btn-sm btn-alt-secondary" href="@Url.Action("Details", "Products", new { id=item.Product.Id })">
+                                                    View
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="mb-1">
+                                        <div class="fw-semibold float-end ms-1">
+                                            @if (@item.Product.Price > @item.Product.Discount)
+                                            {
                                                 <del>$@item.Product.Price</del>
 
-                                                                    <span class="badge rounded-pill bg-danger me-2 px-3"> $@item.Product.Discount</span> }
-                                                                                    else
-                                                                                    {
-                                                                    <span>$@item.Product.Price</span>}
-
-                                                            </div>
-                                                            <a class="h6" href="be_pages_ecom_store_product.html">@item.Product.Title</a>
-                                                        </div>
-                                                        <p class="fs-sm text-muted">@item.Product.Description</p>
-                                                    </div>
-                                                </div>
-                                            </div> <!--End of product-->}
-                                                    </div>
-                                                </div>
-                                                @* End Of Products List*@
-                                            </div>
-                                            <div class="row push">
-
-                                                <!-- Best Offer -->
-                                                <div class="col-xl-12 order-xl-0">
-                                                    <h2 class="content-heading">Best Offer</h2>
-                                                    <div class="row items-push">
-                                                        <!--one Product-->
-                                                        @foreach (var item in Model.BestOffers)
-                                                        {
-
-
-                                            <div class="col-md-4 col-xl-4">
-                                                <div class="block block-rounded h-100 mb-0">
-                                                    <div class="block-content p-1">
-                                                        <div class="options-container">
-                                                            <img class="w-100" style="height:500px;" src="~/uploads/@item.Images.Path" alt="@item.Images.Path">
-                                                            <div class="options-overlay bg-black-75">
-                                                                <div class="options-overlay-content">
-                                                                    <a class="btn btn-sm btn-alt-secondary" href="@Url.Action("Details", "Products", new { id=item.Product.Id })">
-                                                                        View
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="block-content">
-                                                        <div class="mb-1">
-                                                            <div class="fw-semibold float-end ms-1">
-                                                                @if (@item.Product.Price > @item.Product.Discount)
-                                                                {
-                                                                    <del>$@item.Product.Price</del>
-
-                                                                    <span class="badge rounded-pill bg-danger me-2 px-3"> $@item.Product.Discount</span> }
-                                                                 else
-                                                                   {
-                                                                    <span>$@item.Product.Price</span>
-                                                                    }
-
-                                                            </div>
-                                                            <a class="h6" href="be_pages_ecom_store_product.html">@item.Product.Title</a>
-                                                        </div>
-                                                        <p class="fs-sm text-muted">@item.Product.Description</p>
-                                                    </div>
-                                                </div>
-                                            </div> <!--End of product-->}
-                                                    </div>
-                                                </div>
-                                                @* End Best offer*@
-                                            </div>
+                                                <span class="badge rounded-pill bg-danger me-2 px-3"> $@item.Product.Discount</span> }
+                                            else
+                                            {
+                                                <span>$@item.Product.Price</span>}
 
                                         </div>
-                                    </main>
+                                        <a class="h6" href="be_pages_ecom_store_product.html">@item.Product.Title</a>
+                                    </div>
+                                    <p class="fs-sm text-muted">@item.Product.Description</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--End of product-->}
+                </div>
+            </div>
+            @* End Best offer*@
+        </div>
+
+    </div>
+</main>

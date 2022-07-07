@@ -21,8 +21,22 @@ namespace Examen_ASP.Net.Controllers
         // GET: Products
         public ActionResult Index()
         {
-            var products = db.Products.Include(p => p.Category).Include(p => p.User);
-            return View(products.ToList());
+            if (Session["user"] != null)
+            {
+                User user = (User)Session["user"];
+                if (user.Role == "admin")
+                {
+                    var products = db.Products.Include(p => p.Category).Include(p => p.User);
+                    return View(products.ToList());
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            return RedirectToAction("Index", "Home");
+
+
         }
         /*
         // Save images 
@@ -67,56 +81,6 @@ namespace Examen_ASP.Net.Controllers
             return View();
         }
 
-        // POST: Products/Create
-        // Afin de déjouer les attaques par survalidation, activez les propriétés spécifiques auxquelles vous voulez établir une liaison. Pour 
-        // plus de détails, consultez https://go.microsoft.com/fwlink/?LinkId=317598.
-
-        //public ActionResult Create([Bind(Include = "Id,Title,Description,Discount,Price,Quantity,Address,Status,Category_id,User_id")] Product product)
-        //{
-        //    string filename;
-        //    string path;
-        //    Image image = new Image();
-
-        //    if (product.Price < product.Discount) {
-        //        ViewBag.Message = "Discount price is beger than Price";
-
-        //        return View("Create");
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        User user;
-        //        user = (User)Session["user"];
-        //        product.User_id = 1;
-        //        db.Products.Add(product);
-        //        db.SaveChanges();
-
-        //        return RedirectToAction("Index");
-
-
-
-
-        //        //foreach (var file in obj.files)
-        //        //{
-        //        //    if (file != null)
-        //        //    {
-        //        //        filename = Path.GetFileName(file.FileName);
-        //        //        path = Path.Combine(Server.MapPath("~/uploads/"), filename);
-        //        //        file.SaveAs(path);
-        //        //        image.Path = path;
-        //        //        image.Product_id = product.Id;
-
-        //        //        db.Images.Add(image);
-        //        //        db.SaveChanges();
-        //        //    }
-        //        //}
-
-        //    }
-
-        //    ViewBag.Category_id = new SelectList(db.Categories, "Id", "Name", product.Category_id);
-        //    ViewBag.User_id = new SelectList(db.Users, "Id", "Name", product.User_id);
-        //    return View(product);
-        //}
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(string Title, string Description, double Discount, double Price, int Quantity, string Address, bool Status, int Category_id, ImageFile obj)
